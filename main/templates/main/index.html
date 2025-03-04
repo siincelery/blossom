@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{title}}</title>
-    </head>
-    <body>
-        <p>{{content}}</p>
-    </body>
-</html>
+{% extends "main/base.html" %}
+
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static  "deps/css/my_footer_css.css" %}">
+{% endblock css %}
+
+{% block content %}
+<div class="col-lg-10">
+    <!-- Контент на странице -->
+    <p style="font-family: NauryzRedKeds; font-size: 64px; text-align: right;margin-top:100px;"><strong>АРОМАТ ПО<br> ТИПУ ЛИЧНОСТИ</strong></p>
+</div>
+</div>
+<div>
+<button class="btn btn-outline-success text-white d-flex align-items-center" type="submit" style="background-color: #F9A7EA; border: none; border-radius:30px; padding-left:20px; font-family: Involve; font-size: 25px;">
+    <span style="color:#242526; margin-right: 10px;">Пройти тест</span>
+    <img src="{% static "deps/icons/arrow-right.svg" %}" alt="Catalog Icon" width="72" height="35">
+</button>
+{% endblock content %}
+
+
+{% block footer %}
+<footer class="py-4 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
+    </div>
+</footer>
+{% endblock%}
+
+
