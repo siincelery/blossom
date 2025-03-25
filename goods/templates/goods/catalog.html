@@ -45,7 +45,14 @@
                         <button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
                     </form>
                 </div>
-           
+            
+                {% if request.GET.q %}
+                <h3 class="mt-4">Результаты поиска по запросу {{ request.GET.q }}</h3>
+                {% if not goods %}
+                    
+                    <h2 class="mt-4">По запросу ничего не найдено</h2>
+                {% endif %}
+                {% endif %}
                 {% for product in goods %}
                 
                 <div class="col-lg-4 col-md-6 p-4">
@@ -58,9 +65,14 @@
                       
                       <div class="card-body">
                         <a href="{% url "catalog:product" product.slug %}" class="product-title">
-                          <p class="card-title">{{ product.name }}</p>
+                          <p class="card-title">{% autoescape off %}
+                            {% if product.headline %}{{product.headline}}{% else %}{{ product.name }}{% endif %}{% endautoescape %}
+                          </p>
                         </a>
-                        <p class="card-text">{{ product.description|truncatechars:50}}</p>
+                        <p class="card-text">{% autoescape off %}
+                            {% if product.headline %}{{product.bodyline|truncatechars:100}}{% else %}{{ product.description|truncatechars:50}}{% endif %}{% endautoescape %}
+                        </p>
+                          
                         <p class="product_id">Артикул: {{product.display_id}}</p>
                         <div class="d-flex justify-content-between align-items-end">
                             {% if product.discount %}
@@ -88,6 +100,7 @@
 
          
             </div>
+            {% if goods %}
             <!-- Пагинация -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center my-4 custom-pagination"> <!-- Добавлен класс custom-pagination -->
@@ -110,6 +123,7 @@
                     </div>
                 </ul>
             </nav>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -119,9 +133,17 @@
 
 
 {% block footer %}
+{% if goods %}
 <footer class="py-4 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
     </div>
 </footer>
+{% else %}
+<footer class="py-4 bg-dark" style="position: fixed; bottom: 0;left: 0;width: 100%;">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
+    </div>
+</footer>
+{% endif %}
 {% endblock%}
