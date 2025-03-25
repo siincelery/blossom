@@ -1,0 +1,46 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+{% if request.session.personality_type %}
+<div class="alert alert-info text-center" style="max-width: 600px; margin: 20px auto;">
+    У вас уже есть сохранённые результаты теста.<br>
+    <a href="{% url 'personality_test:result' %}" class="btn btn-sm btn-outline-primary mt-2">
+        Посмотреть мои результаты
+    </a>
+    <a href="{% url 'personality_test:reset' %}" class="btn btn-sm btn-outline-secondary mt-2">
+        Начать заново
+    </a>
+</div>
+{% endif %}
+    <h1 style="font-family:'Novelist', sans-serif; font-size: 50px; margin-top: 30px;text-align:center;">Тест на тип личности</h1>
+    <form method="post" class="d-flex flex-column align-items-center">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div class="text-center">
+                <p style="font-family:'Involve', sans-serif; font-size: 25px; margin-top: 20px;">{{ question.text }}</p>
+                <div>
+                    <label style="font-family:'Involve', sans-serif; font-size: 25px; margin-top: 10px;">
+                        <input type="radio" name="question_{{ question.id }}" value="yes"> Да
+                    </label>
+                    <label style="font-family:'Involve', sans-serif; font-size: 25px; margin-top: 10px; padding-left:50px;">
+                        <input type="radio" name="question_{{ question.id }}" value="no"> Нет
+                    </label>
+                </div>
+                <div>
+                    <hr style="border: 1px solid #242526; margin: 20px 0;">
+                </div>
+            </div>
+        {% endfor %}
+        <br>
+        <button type="submit" style="background-color: #FFFFFF; border: 1px solid #242526; border-radius: 30px; padding: 5px 20px 5px 20px; font-family: 'Involve'; font-size: 25px;margin-bottom: 30px;">Отправить</button>
+    </form>
+{% endblock content %}
+
+{% block footer %}
+<footer class="bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
+    </div>
+</footer>
+{% endblock%}

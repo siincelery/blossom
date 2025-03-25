@@ -1,4 +1,5 @@
 {% load static %}
+{%load goods_tags%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static  "deps/css/bootstrap/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static  "deps/css/my_css.css" %}">
+    <link rel="stylesheet" href="{% static 'deps/css/fonts.css' %}">
     <!-- Стиль footer-a для главной страницы -->
     {% block css %}
     
@@ -24,8 +26,7 @@
 <header>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="{% url "main:index" %}">
-                <img src="{% static "deps/icons/logo.svg" %}" alt="Logo">
+            <a class="navbar-brand" href="{% url "main:index" %}" style="font-family: 'Novelist'; font-size: 40px;">Blossom
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -38,10 +39,10 @@
                         <a class="nav-link" href="{% url "main:about" %}">О нас</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Каталог</a>
+                        <a class="nav-link" href="{% url 'goods:index' 'all' %}">Каталог</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Тест</a>
+                        <a class="nav-link" href="{% url "personality_test:pageTest" %}">Тест</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center">
@@ -60,44 +61,43 @@
         
         <div class="container">
             <!-- Каталог и корзина с фиксированным расположением на странице -->
-            <div class="row mt-1 position-fixed z-3">
+            <div class="row mt-1">
                 <!-- Каталог -->
                 <div class="d-flex align-items-center">
                     <div class="dropdown mb-2">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                            style="background-color: #F9A7EA; border: none; border-radius: 30px; height: 45px; width: 170px; font-family: 'Involve';font-size: 20px;">
+                            style="background-color:none;  border: 1px solid #242526; border-radius: 30px; height: 45px; width: 170px; font-family: 'Involve';font-size: 20px;">
                             Каталог
                             <img class="mx-1" src="{% static "deps/icons/grids.svg" %}" alt="Catalog Icon" width="25" height="25">
                         </button>
-                        <ul class="dropdown-menu" style="background-color: #F9A7EA; border-radius: 30px;">
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Все товары</a></li>
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Женские ароматы</a></li>
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Мужские ароматы</a></li>
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Унисекс ароматы</a></li>
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Для детей</a></li>
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Ароматы для дома</a></li>
-                            <li><a class="dropdown-item text-dark" href="{% static "goods/catalog.html" %}">Парфюмированный уход</a></li>
+                        <ul class="dropdown-menu" style="background-color:#FFFFFF; border-radius: 30px;">
+                            {% tag_categories as categories %}
+                            {% for category in categories %}
+                                <li><a class="dropdown-item text-dark" href="{% url "catalog:index" category.slug %}">{{category.name}}</a></li>
+                            {% endfor %}
+                            
                         </ul>
                     </div>
+                    <!-- Значок корзины, вызывает модальное окно -->
+                    <div class="ms-2"> <!-- Добавляем отступ слева -->
+                        <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton"
+                            aria-expanded="false" style="background-color:#FFFFFF; border: 1px solid #242526; border-radius: 30px; color: #242526">
+                            <img class="mx-1" src="{% static "deps/icons/cart.svg" %}" alt="Catalog Icon" width="24"
+                                height="24">
+                            <span id="goods-in-cart-count">0</span>
+                        </button>
+                    </div>
                 
-                    <form class="d-flex ms-2" role="search" > <!-- Добавляем класс ms-2 для отступа между элементами -->
-                        <input class="form-control me-2" type="search" placeholder="  Поиск" aria-label="Search" style="border-radius: 30px; height: 50px; width: 500px; margin-left: 200px;">
-                        <button class="btn btn-outline-success text-white" type="submit" style="background-color: #F9A7EA; border: none; border-radius:30px;">
+                    <form class="d-flex ms-2" role="search" action="{% url "catalog:search" %}" method="get"> 
+                        <input class="form-control me-2" type="search" name="q" placeholder="  Поиск" aria-label="Search" style="border: 1px solid #242526; border-radius: 30px; height: 50px; width: 500px; margin-left: 200px;">
+                        <button class="btn btn-outline-success text-white" type="submit" style="background-color:none; border: 1px solid #242526; border-radius:30px;">
                             <img class="mx-1" src="{% static "deps/icons/search.svg" %}" alt="Catalog Icon" width="30" height="30">
                         </button>
                     </form>
                 </div>
                 
                 
-                <!-- Значек корзины, вызывает модальное окно -->
-                <div>
-                    <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton"
-                        aria-expanded="false" style="background-color: #F9A7EA; border: none; border-radius: 30px; color: #242526">
-                        <img class="mx-1" src="{% static "deps/icons/cart.svg" %}" alt="Catalog Icon" width="24"
-                            height="24">
-                        <span id="goods-in-cart-count">0</span>
-                    </button>
-                </div>
+            
                 <!-- Разметка модального окна корзины -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
