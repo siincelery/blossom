@@ -49,9 +49,7 @@
                     <a href="carts/cart.html" class="nav-link" style="margin-right: 30px;">
                         <img src="{% static  "deps/icons/cart.svg" %}" alt="Корзина" style="height: 30px; width:auto;"> 
                     </a>
-                    {% comment "" %}<a href="{% url "users:profile" %}" class="nav-link">
-                        <img src="{% static  "deps/icons/user.svg" %}" alt="Профиль" style="height: 30px; width:auto;"> 
-                    </a>{% endcomment %}
+                    
                     <div class="dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{% static 'deps/icons/user.svg' %}" alt="Профиль" style="height: 30px; width:auto;">
@@ -187,6 +185,7 @@
         <!-- Контент -->
         <div class="container" >
             <div class="row mt-1">
+                {% include "includes/notifications.html" %}
                 {% block content %}{% endblock content %}
             </div>
          
