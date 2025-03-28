@@ -44,6 +44,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "personality_test:pageTest" %}">Тест</a>
                     </li>
+                    {% if user.is_admin or user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "admin:index" %}">Админ Панель</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <div class="d-flex align-items-center">
                     <a href="carts/cart.html" class="nav-link" style="margin-right: 30px;">
