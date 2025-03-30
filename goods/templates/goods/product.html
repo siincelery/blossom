@@ -18,7 +18,7 @@
                 <p class="card-text">{{ product.description }}</p>
                 <p class="card-text">{{ product.pyramid_of_fragrance}}</p>
                 <p class="card-text">Цена: <strong>{{ product.sell_price }} ₽</strong></p>
-                <a class="btn btn-dark add-to-cart"
+                <a href="{% url "cart:cart_add" product.slug %}" class="btn btn-dark add-to-cart"
                     data-product-id="{{ product.id }}">
                     {% csrf_token %}
                     Добавить в корзину</a>
@@ -41,17 +41,7 @@
                 </div>
             </div>
         </div>
-        <!-- Описание товара -->
-       {% comment "" %} <div class="card-body">
-            <p class="card-text">Цена: <strong>{{ product.sell_price }} $</strong></p>
-            <h5 class="card-title">{{ product.name }}, {{product.type_product}}, {{product.product_weight}}</h5>
-            <p class="card-text">Тип личности: {{ product.type_of_personality}}</p>
-            <p class="card-text">{{ product.description }}</p>
-            <p class="card-text">{{ product.pyramid_of_fragrance}}</p>
-            
-            {% csrf_token %}
-            Добавить в корзину</a>{% endcomment %}
-        </div>
+        
     </div>
 </div>
 {% endblock  %}
