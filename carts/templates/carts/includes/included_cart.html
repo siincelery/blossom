@@ -9,7 +9,7 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row text-center">
-                <div class="col p-0">
+                <div class="col p-0"> 
                     <div class="input-group">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-dark btn-sm decrement"
@@ -51,3 +51,8 @@
         <h4 class="float-left"><strong>{{ carts.total_price }} ₽</strong></h4>
     </div>
 </div>
+{% if carts and not order%}
+    <a class="btn btn-dark" href={% url "orders:create_order" %}>
+        Оформить заказ
+    </a>
+{% endif %}
