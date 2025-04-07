@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'pageTest',
     'users',
     'carts',
+    'orders',
    
 ]
 
